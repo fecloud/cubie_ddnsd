@@ -1,12 +1,23 @@
 #!/bin/sh
 
 PROG=ddnsd
+PROG_APTH="/data/app/$PROG"
 MSG_PREFIX=" *"
 echo "$MSG_PREFIX start install $PROG"
-ln  -f -s /data/app/$PROG/$PROG /etc/init.d/$PROG
+
+if [ -d "$PROG_APTH" ] 
+then
+	rm -rf $PROG_APTH
+fi
+
+mkdir -p $PROG_APTH
+cp -v -n -r ./bin $PROG_APTH/
+cp -v -n ./ddnsd  $PROG_APTH/
+cp -v -n ./DDNS.conf $PROG_APTH/
+ln  -f -s $PROG_APTH/$PROG /etc/init.d/$PROG
 update-rc.d  $PROG defaults 30
 echo "$MSG_PREFIX install sucess $PROG"
 
-
+service ddnsd restart
 
 

@@ -13,6 +13,7 @@
 
 ## Fill in name of program here.
 PROG="ddns"
+MSG_PREFIX=" *"
 PROG_BASE="/data/app/ddnsd"
 PROG_PATH="/data/app/ddnsd/bin" #::# Not need, but sometimes helpful (if $PROG resides in /opt for example).
 PROG_ARGS="-c $PROG_BASE/DDNS.conf -m"
@@ -21,14 +22,14 @@ PID_PATH="/var/run/$PROG.pid"
 start() {
     if [ -e "$PID_PATH" ]; then
         ## Program is running, exit with error.
-        echo " *$PROG is currently running..." 
+        echo "$MSG_PREFIX $PROG is currently running..." 
         exit 1
     else
         ## Change from /dev/null to something like /var/log/$PROG if you want to save output.
 	$PROG_PATH/$PROG $PROG_ARGS 2>&1 >/dev/null &&
 	pid=`ps x|grep $PROG_PATH |awk '{print $1}' | head -n 1`
 	echo "$pid" > $PID_PATH
-        echo " *$PROG started"
+        echo "$MSG_PREFIX $PROG started"
     fi
 }
 
@@ -37,7 +38,7 @@ stop() {
         ## Program is running, so stop it
 	pid=`ps x|grep $PROG_PATH |awk '{print $1}' | head -n 1`
 	kill -9 $pid &  rm -f  "$PID_PATH"
-        echo " *$PROG stopped"
+        echo "$MSG_PREFIX $PROG stopped"
     else
         ## Program is not running, exit with error.
         echo " *$PROG not started" 
@@ -48,7 +49,7 @@ stop() {
 ## Check to see if we are running as root first.
 
 if [ "$(id -u)" != "0" ]; then
-    echo "This script must be run as root" 1>&2
+    echo "$MSG_PREFIX this script must be run as root" 1>&2
     exit 1
 fi
 
