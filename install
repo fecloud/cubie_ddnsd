@@ -16,6 +16,7 @@ cp -v -n ./ddnsd  $PROG_APTH/
 cp -v -n ./DDNS.conf $PROG_APTH/
 ln  -f -s $PROG_APTH/$PROG /etc/init.d/$PROG
 update-rc.d  $PROG defaults 30
+
 echo "$MSG_PREFIX install sucess $PROG"
 
 service ddnsd restart
