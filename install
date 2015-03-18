@@ -1,0 +1,9 @@
+#!/bin/sh
+
+PROG=ddnsd
+MSG_PREFIX=" *"
+echo "$MSG_PREFIX start install $PROG"
+ln  -f -s /data/app/$PROG/$PROG /etc/init.d/$PROG
+update-rc.d  $PROG defaults 30
+echo "$MSG_PREFIX install sucess $PROG"
+
